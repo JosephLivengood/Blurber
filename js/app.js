@@ -1,124 +1,111 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 
-var calculatePayment = function(principal, years, rate) {
-    var monthlyRate = rate / 100 / 12;
-    var monthlyPayment = principal * monthlyRate / (1 - (Math.pow(1/(1 + monthlyRate), years * 12)));
-    var balance = principal;
-    var amortization = [];
-    for (var y=0; y<years; y++) {
-        var interestY = 0;  //Interest payment for year y
-        var principalY = 0; //Principal payment for year y
-        for (var m=0; m<12; m++) {
-            var interestM = balance * monthlyRate;       //Interest payment for month m
-            var principalM = monthlyPayment - interestM; //Principal payment for month m
-            interestY = interestY + interestM;
-            principalY = principalY + principalM;
-            balance = balance - principalM;
-        }
-        amortization.push({principalY: principalY, interestY: interestY, balance: balance});
-    }
-    return {monthlyPayment: monthlyPayment, amortization:amortization};
-};
+import HomeWrapper from './views/home/components/main.js';
 
-var Header = React.createClass({
-    render: function () {
-        return (
-            <header>
-                <h1>{this.props.title}</h1>
-            </header>
-        );
-    }
-});
+/*
+* SAMPLE DATA IN FORMAT FROM API RES
+*/
 
-var AmortizationChart = React.createClass({
-    render: function () {
-        var items = this.props.data.map(function (year, index) {
-            return (
-                <tr key={index}>
-                    <td>{index + 1}</td>
-                    <td className="currency principal">{Math.round(year.principalY).toLocaleString()}</td>
-                    <td className="stretch">
-                        <div className="flex">
-                            <div className="bar principal" style={{flex: year.principalY, WebkitFlex: year.principalY}}></div>
-                            <div className="bar interest" style={{flex: year.interestY, WebkitFlex: year.interestY}}></div>
-                        </div>
-                    </td>
-                    <td className="currency interest">{Math.round(year.interestY).toLocaleString()}</td>
-                    <td className="currency">{Math.round(year.balance).toLocaleString()}</td>
-                </tr>
-            );
-        });
-        return (
-            <table>
-                <thead>
-                <tr>
-                    <th>Year</th>
-                    <th className="principal">Principal</th>
-                    <th className="stretch"></th>
-                    <th className="interest">Interest</th>
-                    <th>Balance</th>
-                </tr>
-                </thead>
-                <tbody>{items}</tbody>
-            </table>
-        );
-    }
-});
+var user1 = {
+    user_id: 1,
+    name: 'Joseph Livengood',
+    location: 'Noblesville, Indiana',
+    profile_photo: 'http://placehold.it/180x180',
+    bio: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris condimentum vitae nibh at sodales. Aenean enim felis, mollis ac posuere sed, dignissim in augue. Nam molestie ullamcorper justo nec maximus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Sed vitae lacus et tellus efficitur laoreet. Donec et metus gravida, accumsan arcu vel, fringilla nibh. Aenean vitae mi nec nibh posuere fermentum id at dolor. Proin fermentum lorem sit amet odio vestibulum, id finibus nibh mattis. Nunc vel odio velit. Fusce interdum at nisi ut mattis. Donec commodo consectetur consequat.',
+    role: 'admin',
+    blurb_count: 12,
+    reblurbed_count: 137,
+    reblurb_count: 35
+}
 
-var MortgageCalculator = React.createClass({
-    getInitialState: function() {
-        return {
-            principal: this.props.principal,
-            years: this.props.years,
-            rate: this.props.rate
-        };
-    },
-    principalChange: function(event) {
-        this.setState({principal: event.target.value});
-    },
-    yearsChange: function(event) {
-        this.setState({years: event.target.value});
-    },
-    rateChange: function(event) {
-        this.setState({rate: event.target.value});
-    },
-    render: function () {
-        var payment = calculatePayment(this.state.principal, this.state.years, this.state.rate);
-        var monthlyPayment = payment.monthlyPayment;
-        var amortization = payment.amortization;
-        return (
-            <div className="content">
-                <div className="form">
-                    <div>
-                        <label>Principal:</label>
-                        <input type="text" value={this.state.principal} onChange={this.principalChange}/>
-                    </div>
-                    <div>
-                        <label>Years:</label>
-                        <input type="text" value={this.state.years} onChange={this.yearsChange}/>
-                    </div>
-                    <div>
-                        <label htmlFor="rate">Rate:</label>
-                        <input type="text" value={this.state.rate} onChange={this.rateChange}/>
-                    </div>
-                </div>
-                <h2>Monthly Payment: <span className="currency">{Number(monthlyPayment.toFixed(2)).toLocaleString()}</span></h2>
-                <AmortizationChart data={amortization}/>
-            </div>
-        );
-    }
-});
-
-var App = React.createClass({
-    render: function () {
+var blurbs1 = {
+    blurbs: [
+        {
+            user_id: 1,
+            name: 'Joseph Livengood',
+            profile_photo: 'http://placehold.it/180x180',
+            text: 'Welcome to the site! Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris condimentum vitae nibh at sodales. Aenean enim felis, mollis ac posuere sed, dignissim in augue. Nam molestie ullamcorper justo nec maximus.',
+            date: new Date(),
+            reblurbed: 3,
+            code: `class App extends React.Component {
+    render() {
         return (
             <div>
-                <Header title="React Mortgage Calculator"/>
-                <MortgageCalculator principal="200000" years="30" rate="5"/>
+                <Header title="Blurber" />
+                <HomeWrapper user={user1} blurbs={blurbs1} />
             </div>
         );
     }
-});
+}`
+        },
+        {
+            user_id: 2,
+            name: 'Tim Cook',
+            profile_photo: 'http://i1-news.softpedia-static.com/images/news2/apple-s-ceo-tim-cook-is-boring-and-incompetent-internet-guru-says-510058-2.jpg',
+            text: 'Mauris condimentum vitae nibh at sodales. Welcome to the site 2!',
+            date: new Date(),
+            reblurbed: 0,
+            code: 'console.log("Hello World 2!");'
+        },
+        {
+            user_id: 3,
+            name: 'Mark Zuckerberg',
+            profile_photo: 'http://media.salon.com/2015/04/shutterstock_181985711-e1449168898686.jpg',
+            text: 'Mauris condimentum vitae nibh at sodales. Welcome to the site 2! Aenean vitae mi nec nibh posuere fermentum id at dolor. Proin fermentum lorem sit amet odio vestibulum, id finibus nibh mattis. Nunc vel odio velit.',
+            date: new Date() +1,
+            reblurbed: 0,
+            code: ''
+        },
+        {
+            user_id: 4,
+            name: 'Warren Buffett',
+            profile_photo: 'http://www.investwithalex.com/wp-content/uploads/2015/03/warren-buffett-letter.jpg',
+            text: 'Mauris condimentum vitae nibh at sodales. Welcome to the site 2!',
+            date: new Date() +5,
+            reblurbed: 0,
+            code: `class BlurbContainer extends React.Component {
+    render() {
+        const blurbs = this.props.blurbs.blurbs;
+        console.log(blurbs);
+        const listBlurbs = blurbs.map((blurb) =>
+            <Blurb key={blurb.user_id*blurb.date} blurb={blurb} /> );
+        return (
+            <div className='blurbContainer'>
+                {listBlurbs}
+            </div>
+        );
+    }
+}`
+        },
+        {
+            user_id: 20,
+            name: 'Tim Cook',
+            profile_photo: 'http://i1-news.softpedia-static.com/images/news2/apple-s-ceo-tim-cook-is-boring-and-incompetent-internet-guru-says-510058-2.jpg',
+            text: 'This is working!',
+            date: new Date(),
+            reblurbed: 0,
+            code: 'assert.isDefined(website);'
+        },
+        
+    ]
+}
+
+class Header extends React.Component {
+    render() {
+        return <header><h1>{this.props.title}</h1></header>
+    }
+}
+
+class App extends React.Component {
+    render() {
+        return (
+            <div>
+                <Header title="Blurber" />
+                <HomeWrapper user={user1} blurbs={blurbs1} />
+            </div>
+        );
+    }
+}
 
 ReactDOM.render(<App/>,  document.getElementById("app"));

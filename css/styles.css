@@ -9,6 +9,7 @@ header {
     background-color: #03A9F4;
     padding: 14px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    margin-bottom: 3px;
 }
 
 h1, h2 {
@@ -27,101 +28,97 @@ h2 {
     margin: 24px 0;
 }
 
-h2 > .currency {
-    color: #0288D1;
+#app {
+    
 }
 
-.principal {
-    color: #0288D1;
+.userSide {
+    text-align: center;
+    background-color: #FbFbFb;
+    padding-top: 5px;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
-.interest {
-    color: #EF6C00;
+.profilePhoto {
+    display: block;
+    width: 85%;
+    max-width: 185px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-input[type=text] {
-    -webkit-appearance: none;
-    width: 150px;
-    height: 24px;
-    padding: 3px 8px;
-    font-size: 14px;
-    line-height: 1.42857143;
-    color: #555;
-    border: 1px solid #ccc;
-    border-radius: 2px;
-    -webkit-box-shadow: none;
-    box-shadow: none;
+.profileBio {
+    font-size: 11px;
 }
 
-table {
-    border-collapse: collapse;
-    font-weight: 300;
+.blurbStats {
+    background-color: rgba(255,255,255,.75);
+    padding-top: 10px;
+    padding-bottom: 0px;
 }
 
-th {
-    text-align: right;
-    font-weight: 400;
+.friendGrid {
+    margin-left: 0px !important;
+    margin-right: 0px !important;
 }
 
-td {
-    text-align: right;
-    padding: 0 .5rem;
+.friendIcon > p {
+    text-align: center;
+    font-size: 10px;
+    font-weight: 600;
+    border-radius: 5px;
+    background-color: rgba(255,255,255,.75);
+    overflow: hidden;
 }
 
-
-
-th,
-td {
-    border: solid 1px #EEEEEE !important;
-    padding: 1px 4px;
-}
-
-label {
-    display: inline-block;
-    width: 80px;
-    text-align: right;
-    margin-right: 4px;
-}
-
-.content {
-    padding: 20px;
-}
-
-.bar {
-    display: inline-block;
-    border: none;
-    height: 8px;
-}
-
-.bar.principal {
-    background-color: #0288D1;
-    margin-right:.5px;
-}
-
-.bar.interest {
-    background-color: #EF6C00;
-    margin-left:.5px;
-}
-
-.stretch {
+.friendIcon > img {
+    object-fit: cover;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    overflow: hidden;
     width: 100%;
-    padding-left:0;
-    padding-right:0;
+    height: 90px;
 }
 
-.flex {
-    display: -webkit-flex;
-    display: flex;
+.blurbBox {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 5px;
+    border-radius: 8px;
 }
 
-.currency::before {
-    content:"$";
+.blurb > p {
+    text-align: left !important;
+    font-size: 11px;
+    margin-bottom: 3px;
 }
 
-.left {
-    text-align: left;
+.blurb > h4 {
+    text-align: left !important;
+    font-size: 12px;
+    font-weight: 600;
 }
 
-.form > div {
-    margin: 6px 0;
+.blurb > pre {
+    text-align: left !important;
+    font-size: 9px;
+    padding: 2px;
+    margin: 10px;
+}
+
+.blurb > img {
+    opacity: 0.75;
+    object-fit: cover;
+    border-radius: 5px;
+    overflow: hidden;
+    width: 90px;
+    height: 90px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+
+.blurb > img:hover {
+    opacity: 1.0;
 }
